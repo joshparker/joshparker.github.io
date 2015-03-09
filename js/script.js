@@ -54,9 +54,9 @@ $(document).ready(function() {
 });
 
 function getClock() {
-	var date = new Date();
-	var hours = date.getHours();
-	var minutes = date.getMinutes();
+	var d = new Date();
+	var hours = d.getHours();
+	var minutes = d.getMinutes();
 
 	if (hours > 12) {
 		hours -= 12;
@@ -68,12 +68,15 @@ function getClock() {
 		minutes = "0"+minutes;
 	}
 
-	var str = hours+":"+minutes;
-	$('#time').html(str);
+	var time = hours+":"+minutes;
+	var date = d.getDate()+"/"+d.getDay()+"/"+d.getFullYear();
+	console.log(date);
+	$('#date').html(date)
+	$('#time').html(time);
 
 	// Change the header image based on the time
 	// TODO: Get city local, sunset, and sunset times
-	var hour = date.getHours();
+	var hour = d.getHours();
 	if (hour >= 5 && hour < 8) {
 		// 05:00 - 08:00
 		$('header').css('background-image', "url('http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999')");
