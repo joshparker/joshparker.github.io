@@ -25,7 +25,10 @@
 
 * { font-family:'Roboto', sans-serif; line-height:1.2; vertical-align:middle; }
 
-header {
+#time {
+  position: absolute;
+  top: 0;
+  right: 0;
   font-family: Roboto;
   text-align: right;
   font-size: 1.25rem;

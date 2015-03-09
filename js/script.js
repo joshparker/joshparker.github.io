@@ -66,7 +66,7 @@ function getClock() {
 	}
 
 	var str = hours+":"+minutes;
-	$('header').html(str);
+	$('#time').html(str);
 
 }
 
