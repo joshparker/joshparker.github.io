@@ -69,7 +69,7 @@ function getClock() {
 	}
 
 	var time = hours+":"+minutes;
-	var date = d.getDate()+"/"+d.getDay()+"/"+d.getFullYear();
+	var date = d.getMonth()+1+"/"+d.getDate()+"/"+d.getFullYear();
 	console.log(date);
 	$('#date').html(date)
 	$('#time').html(time);
