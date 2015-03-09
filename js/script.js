@@ -43,21 +43,20 @@ var icons = {
 	'50n': "fog"
 };
 
-
 $(document).ready(function() {	
-	search("Salt Lake City, UT");
 	$('input').keypress(function(event) {
         if (event.keyCode == 13) {
             search(event.target.value);
         }
     });
     getClock();
+	search("Salt Lake City, UT");
 });
 
 function getClock() {
-	var d = new Date();
-	var hours = d.getHours();
-	var minutes = d.getMinutes()
+	var date = new Date();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
 
 	if (hours > 12) {
 		hours -= 12;
@@ -65,25 +64,30 @@ function getClock() {
 		hours = 12;
 	}
 
+	if (minutes < 10) {
+		minutes = "0"+minutes;
+	}
+
 	var str = hours+":"+minutes;
 	$('#time').html(str);
 
-}
+	// Change the header image based on the time
+	// TODO: Get city local, sunset, and sunset times
+	var hour = date.getHours();
+	if (hour >= 5 && hour < 8) {
+		// 05:00 - 08:00
+		$('header').css('background-image', "url('http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999')");
+	} else if (hour >= 8 && hour < 15) {
+		// 08:00 - 18:00
+		$('header').css('background-image', "url('http://lh5.ggpht.com/bosDZkBJxNdwo-dXGZeBkYtfCVnTFq96zqC08UV4dmIccI4YBr5p0CyCE7vmj2w=w9999-h9999')");
+	} else if (hour >= 15 && hour < 18) {
+		// 15:00 - 18:00
+		$('header').css('background-image', "url('http://lh4.ggpht.com/DCGfFj7ILzkFXXDgCliyTAq-cjKs8eyoTstREjhB2grAzzjYnlelGfpIQ4cEX4c=w9999-h9999')");
+	} else if (hour >= 18 || hour >= 0 && hour < 5) {
+		// 18:00 - 5:00
+		$('header').css('background-image', "url('http://lh6.ggpht.com/QgqUFGYoAxRkyvbl_5Hq2L6CTsaGXt9kaqrMdSxga-462Uyv2IViGw7OBzDMWNI=w9999-h9999')");
+	}
 
-function prefixZero(hour, min, sec)
-{
-     var curTime;
-
-     if(hour < 10)
-        curTime = "0"+hour.toString();
-     else
-        curTime = hour.toString(); 
-
-     if(min < 10)
-        curTime += ":0"+min.toString();                           
-     else
-        curTime += ":"+min.toString();   
-    return curTime;
 }
 setInterval(getClock, 1000);
 
@@ -146,23 +150,6 @@ function postCurrent(weatherData) {
 		].join('');
 
 		$('#weather').html(html);
-
-	// Change the header image based on the time
-	// TODO: Get city local, sunset, and sunset times
-	var hour = date.getHours();
-	if (hour >= 5 && hour < 8) {
-		// 05:00 - 08:00
-		$('header').css('background-image', "url('http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999')");
-	} else if (hour >= 8 && hour < 15) {
-		// 08:00 - 18:00
-		$('header').css('background-image', "url('http://lh5.ggpht.com/bosDZkBJxNdwo-dXGZeBkYtfCVnTFq96zqC08UV4dmIccI4YBr5p0CyCE7vmj2w=w9999-h9999')");
-	} else if (hour >= 15 && hour < 18) {
-		// 15:00 - 18:00
-		$('header').css('background-image', "url('http://lh4.ggpht.com/DCGfFj7ILzkFXXDgCliyTAq-cjKs8eyoTstREjhB2grAzzjYnlelGfpIQ4cEX4c=w9999-h9999')");
-	} else if (hour >= 18 || hour >= 0 && hour < 5) {
-		// 18:00 - 5:00
-		$('header').css('background-image', "url('http://lh6.ggpht.com/QgqUFGYoAxRkyvbl_5Hq2L6CTsaGXt9kaqrMdSxga-462Uyv2IViGw7OBzDMWNI=w9999-h9999')");
-	}
 }
 
 function postForecast(weatherData) {
