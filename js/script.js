@@ -51,7 +51,41 @@ $(document).ready(function() {
             search(event.target.value);
         }
     });
+    getClock();
 });
+
+function getClock() {
+	var d = new Date();
+	var hours = d.getHours();
+	var minutes = d.getMinutes()
+
+	if (hours > 12) {
+		hours -= 12;
+	} else if (hours === 12) {
+		hours = 12;
+	}
+
+	var str = hours+":"+minutes;
+	$('header').html(str);
+
+}
+
+function prefixZero(hour, min, sec)
+{
+     var curTime;
+
+     if(hour < 10)
+        curTime = "0"+hour.toString();
+     else
+        curTime = hour.toString(); 
+
+     if(min < 10)
+        curTime += ":0"+min.toString();                           
+     else
+        curTime += ":"+min.toString();   
+    return curTime;
+}
+setInterval(getClock, 1000);
 
 function search(input) {
 	// search input pattern matching
