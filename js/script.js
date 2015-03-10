@@ -77,16 +77,16 @@ function getClock() {
 	// Change the header image based on the time
 	// TODO: Get city local, sunset, and sunset times
 	var hour = d.getHours();
-	if (hour >= 5 && hour < 8) {
+	if (hour >= 6 && hour < 8) {
 		// 05:00 - 08:00
 		$('header').css('background-image', "url('http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999')");
 	} else if (hour >= 8 && hour < 15) {
 		// 08:00 - 18:00
 		$('header').css('background-image', "url('http://lh5.ggpht.com/bosDZkBJxNdwo-dXGZeBkYtfCVnTFq96zqC08UV4dmIccI4YBr5p0CyCE7vmj2w=w9999-h9999')");
-	} else if (hour >= 15 && hour < 18) {
+	} else if (hour >= 15 && hour < 19) {
 		// 15:00 - 18:00
 		$('header').css('background-image', "url('http://lh4.ggpht.com/DCGfFj7ILzkFXXDgCliyTAq-cjKs8eyoTstREjhB2grAzzjYnlelGfpIQ4cEX4c=w9999-h9999')");
-	} else if (hour >= 18 || hour >= 0 && hour < 5) {
+	} else if (hour >= 19 || hour >= 0 && hour < 6) {
 		// 18:00 - 5:00
 		$('header').css('background-image', "url('http://lh6.ggpht.com/QgqUFGYoAxRkyvbl_5Hq2L6CTsaGXt9kaqrMdSxga-462Uyv2IViGw7OBzDMWNI=w9999-h9999')");
 	}
@@ -194,7 +194,7 @@ function postForecast(weatherData) {
 				'</section>',
 				'<section class="forecast">',
 					'<img class="icon" id="', icons[icon], '"></img>',
-					'<p><span>Low: ', low, '&deg</span><span>High: ', high, '&deg</span></p>',
+					'<p><span>High: ', high, '&deg</span><span>Low: ', low, '&deg</span></p>',
 				'</section>',
 				'<section class="forecast">',
 					'<p><span>', main, '</span></p>',
