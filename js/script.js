@@ -134,11 +134,25 @@ function postCurrent(weatherData) {
 	var windspeed = Math.round(weatherData.wind.speed);
 	var humidity = Math.round(weatherData.main.humidity);
 	var temp = Math.round(weatherData.main.temp);
-	var icon = weatherData.weather[0].icon;
 
-	var html = $.get('/html/weather.html', function(data) {
+	var icon = weatherData.weather[0].icon;
+	
+	var html = [
+		'<section class="card">',
+			'<section>',
+				'<span id="city"><h1>', city, '</h1></span>',
+				'<span class="condition" id="current"><h2>', current, '</h2></span>',
+				'<span class="condition" id="wind-speed"><h2>Wind ', windspeed, 'mph</h2></span>',
+				'<span class="condition" id="humidity"><h2>Humidity ', humidity, '&#37</h2></span>',
+			'</section>',
+			'<section>',
+			'	<img class="icon-large" id="', icons[icon], '"></img>',
+			'	<span class="temperature" id="temp">', temp, '&deg</span>',
+			'</section>',
+		'</section>'
+		].join('');
+
 		$('#weather').html(html);
-	});
 }
 
 function postForecast(weatherData) {
