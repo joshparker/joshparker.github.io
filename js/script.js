@@ -45,11 +45,12 @@ var icons = {
 
 $(document).ready(function() {	
 	$('input').keypress(function(event) {
-        if (event.keyCode == 13) {
-            search(event.target.value);
-        }
-    });
-    getClock();
+		if (event.keyCode == 13) {
+			search(event.target.value);
+		}
+	});
+	getClock();
+	setInterval(getClock, 1000);
 	search("Salt Lake City, UT");
 });
 
@@ -57,6 +58,7 @@ function getClock() {
 	var d = new Date();
 	var hours = d.getHours();
 	var minutes = d.getMinutes();
+	var url;
 
 	if (hours > 12) {
 		hours -= 12;
@@ -70,36 +72,37 @@ function getClock() {
 
 	var time = hours+":"+minutes;
 	var date = d.getMonth()+1+"/"+d.getDate()+"/"+d.getFullYear();
-	console.log(date);
+	var hour = d.getHours();
+
 	$('#date').html(date)
 	$('#time').html(time);
 
 	// Change the header image based on the time
 	// TODO: Get city local, sunset, and sunset times
-	var hour = d.getHours();
+	var hour = 12;
 	if (hour >= 6 && hour < 8) {
-		// 05:00 - 08:00
-		$('header').css('background-image', "url('http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999')");
+		// Dawn
+		headerImage = 'http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999';
 	} else if (hour >= 8 && hour < 15) {
-		// 08:00 - 18:00
-		$('header').css('background-image', "url('http://lh5.ggpht.com/bosDZkBJxNdwo-dXGZeBkYtfCVnTFq96zqC08UV4dmIccI4YBr5p0CyCE7vmj2w=w9999-h9999')");
+		// Day
+		headerImage = 'http://lh5.ggpht.com/bosDZkBJxNdwo-dXGZeBkYtfCVnTFq96zqC08UV4dmIccI4YBr5p0CyCE7vmj2w=w9999-h9999';
 	} else if (hour >= 15 && hour < 19) {
-		// 15:00 - 18:00
-		$('header').css('background-image', "url('http://lh4.ggpht.com/DCGfFj7ILzkFXXDgCliyTAq-cjKs8eyoTstREjhB2grAzzjYnlelGfpIQ4cEX4c=w9999-h9999')");
+		// Dusk
+		headerImage = 'http://lh4.ggpht.com/DCGfFj7ILzkFXXDgCliyTAq-cjKs8eyoTstREjhB2grAzzjYnlelGfpIQ4cEX4c=w9999-h9999';
 	} else if (hour >= 19 || hour >= 0 && hour < 6) {
-		// 18:00 - 5:00
-		$('header').css('background-image', "url('http://lh6.ggpht.com/QgqUFGYoAxRkyvbl_5Hq2L6CTsaGXt9kaqrMdSxga-462Uyv2IViGw7OBzDMWNI=w9999-h9999')");
+		// Night
+		headerImage = 'http://lh6.ggpht.com/QgqUFGYoAxRkyvbl_5Hq2L6CTsaGXt9kaqrMdSxga-462Uyv2IViGw7OBzDMWNI=w9999-h9999';
 	}
-
+	headerImage = 'url('+headerImage+')';
+	$('header').css('background-image', headerImage);
 }
-setInterval(getClock, 1000);
 
 function search(input) {
 	// search input pattern matching
 	var re1='([a-zA-Z\s].*)';	// Command Seperated Values 1
 	var re2='(,)';	// Any Single Character 1
 	var re3='( ?)';	// White Space 1
-    var re4='((?:(?:AL)|(?:AK)|(?:AS)|(?:AZ)|(?:AR)|(?:CA)|(?:CO)|(?:CT)|(?:DE)|(?:DC)|(?:FM)|(?:FL)|(?:GA)|(?:GU)|(?:HI)|(?:ID)|(?:IL)|(?:IN)|(?:IA)|(?:KS)|(?:KY)|(?:LA)|(?:ME)|(?:MH)|(?:MD)|(?:MA)|(?:MI)|(?:MN)|(?:MS)|(?:MO)|(?:MT)|(?:NE)|(?:NV)|(?:NH)|(?:NJ)|(?:NM)|(?:NY)|(?:NC)|(?:ND)|(?:MP)|(?:OH)|(?:OK)|(?:OR)|(?:PW)|(?:PA)|(?:PR)|(?:RI)|(?:SC)|(?:SD)|(?:TN)|(?:TX)|(?:UT)|(?:VT)|(?:VI)|(?:VA)|(?:WA)|(?:WV)|(?:WI)|(?:WY)))(?![a-z])';	// US State 1
+	var re4='((?:(?:AL)|(?:AK)|(?:AS)|(?:AZ)|(?:AR)|(?:CA)|(?:CO)|(?:CT)|(?:DE)|(?:DC)|(?:FM)|(?:FL)|(?:GA)|(?:GU)|(?:HI)|(?:ID)|(?:IL)|(?:IN)|(?:IA)|(?:KS)|(?:KY)|(?:LA)|(?:ME)|(?:MH)|(?:MD)|(?:MA)|(?:MI)|(?:MN)|(?:MS)|(?:MO)|(?:MT)|(?:NE)|(?:NV)|(?:NH)|(?:NJ)|(?:NM)|(?:NY)|(?:NC)|(?:ND)|(?:MP)|(?:OH)|(?:OK)|(?:OR)|(?:PW)|(?:PA)|(?:PR)|(?:RI)|(?:SC)|(?:SD)|(?:TN)|(?:TX)|(?:UT)|(?:VT)|(?:VI)|(?:VA)|(?:WA)|(?:WV)|(?:WI)|(?:WY)))(?![a-z])';	// US State 1
 
 	//input validation
 	console.log(input);
@@ -119,8 +122,8 @@ function search(input) {
 		$.getJSON("http://api.openweathermap.org/data/2.5/weather?q="+city.split(' ').join('+')+","+state+"&units=imperial", function(data) {
 			postCurrent(data);
 		});
-		$.getJSON( "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city.split(' ').join('+')+","+state+"&units=imperial", function( data ) {
-	    	postForecast(data);
+		$.getJSON( "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city.split(' ').join('+')+","+state+"&units=imperial&cnt=14", function( data ) {
+			postForecast(data);
 		});
 	}
 }
@@ -136,7 +139,7 @@ function postCurrent(weatherData) {
 	var temp = Math.round(weatherData.main.temp);
 
 	var icon = weatherData.weather[0].icon;
-	
+
 	var html = [
 		'<section class="card">',
 			'<section>',
@@ -152,11 +155,16 @@ function postCurrent(weatherData) {
 		'</section>'
 		].join('');
 
-		$('#weather').html(html);
+		$('#weather').html(
+			html
+		);
 }
 
 function postForecast(weatherData) {
 	console.log(weatherData);
+	
+	var d = new Date();
+	var day = d.getDay();
 
 	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];		
 	var list = weatherData.list;
@@ -170,7 +178,7 @@ function postForecast(weatherData) {
 	};
 
 	$('#forecast').html('');
-	for (index=0; index<list.length; index++) {
+	for (index=day; index<day+7; index++) {
 		// Parse weather data
 		var main = weatherData.list[index].weather[0].main;
 		var icon = weatherData.list[index].weather[0].icon;
@@ -187,23 +195,29 @@ function postForecast(weatherData) {
 		var low = Math.round(range.min());
 		var high = Math.round(range.max());
 
-		var html = [
+		var current = $([
 			'<section class="card-forecast">',
 				'<section class="forecast-day">',
-					'<h2>', days[index], '</h2>',
 				'</section>',
 				'<section class="forecast">',
-					'<img class="icon" id="', icons[icon], '"></img>',
+					'<img class="icon" id="na"></img>',
 					'<p><span>High: ', high, '&deg</span><span>Low: ', low, '&deg</span></p>',
 				'</section>',
-				'<section class="forecast">',
-					'<p><span>', main, '</span></p>',
-				'</section>',
-				'<section id="temps">',
+				'<section class="forecast" id="main">',
+					'<p><span></span></p>',
 				'</section>',
 			'</section>'
-		].join('');
+		].join(''));
 
-		$('#forecast').append(html);
+		$('#forecast').append(current);
+
+		$(current).find('.icon').attr('id', icons[icon]);
+		$(current).find('.forecast-day').html(days[index%7]);
+		$(current).find('.high').html(high);
+		$(current).find('.low').html(low);
+		$(current).find('#main').html(main);
+
+		var n = 1.1+(index/10);
+		$(current).css('-webkit-animation-delay', n+'s')
 	}
 }
