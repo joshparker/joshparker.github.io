@@ -79,7 +79,7 @@ function getClock() {
 
 	// Change the header image based on the time
 	// TODO: Get city local, sunset, and sunset times
-	var hour = 12;
+	
 	if (hour >= 6 && hour < 8) {
 		// Dawn
 		headerImage = 'http://lh5.ggpht.com/LeDpxkfCDssG2jwo20Tg01UxnUc4-PZUojwKsPzIQoGJ_CgbXc7KVko8o3nk5zA=w9999-h9999';
