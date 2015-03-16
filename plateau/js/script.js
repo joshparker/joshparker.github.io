@@ -1,6 +1,7 @@
 var youtubeId = "M8YjvHYbZ9w";
 var invocation = new XMLHttpRequest();
-var url = "https://www.youtube.com/watch?v=" + youtubeId;
+var url = "https://www.googleapis.com/youtube/v3/videos?id=" + youtubeId + "&key=YOUR_API_KEY
+ &part=snippet,contentDetails,statistics,status";
 YoutubeVideo(youtubeId, function(video){
 	if (invocation) {
 		invocation.open('GET', url, true);
